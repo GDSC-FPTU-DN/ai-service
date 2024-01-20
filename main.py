@@ -2,7 +2,6 @@
 import os
 import uvicorn
 from apps.create_app import create_app
-from apps.services.foward.fw_middleware import forward_middleware
 # Import routers
 from apps.apis import router as api_router
 from apps.services import router as service_router

@@ -1,11 +1,12 @@
 from utils.local_storage import read_from_local, save_to_local
+from utils.constants import DATA_DIR
 
 
 FOWARD_JSON_FILE = 'forward.json'
 
 
 def get_fw_destinations() -> list:
-    destinations = read_from_local(FOWARD_JSON_FILE)
+    destinations = read_from_local(FOWARD_JSON_FILE, DATA_DIR)
     if destinations is None:
         return []
     return destinations
@@ -23,7 +24,7 @@ def append_fw_destination(url: str):
         "url": url
     })
     # Save to local
-    save_to_local(forward_destinations, FOWARD_JSON_FILE, False)
+    save_to_local(forward_destinations, FOWARD_JSON_FILE, False, DATA_DIR)
     # Return index
     return len(forward_destinations) - 1
 
@@ -34,7 +35,7 @@ def update_fw_destination(index: int, tasks: int):
     # Update destination
     forward_destinations[index]['tasks'] = tasks
     # Save to local
-    save_to_local(forward_destinations, FOWARD_JSON_FILE, False)
+    save_to_local(forward_destinations, FOWARD_JSON_FILE, False, DATA_DIR)
 
 
 def delete_fw_destination(index: int):
@@ -43,4 +44,4 @@ def delete_fw_destination(index: int):
     # Delete destination
     del forward_destinations[index]
     # Save to local
-    save_to_local(forward_destinations, FOWARD_JSON_FILE, False)
+    save_to_local(forward_destinations, FOWARD_JSON_FILE, False, DATA_DIR)

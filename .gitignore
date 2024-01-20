@@ -2,6 +2,7 @@ env/
 __pycache__/
 .env
 temp/*
+data/*
 
 # Keep the .gitkeep file in the temp/ directory
 !.gitkeep

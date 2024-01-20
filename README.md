@@ -41,6 +41,14 @@ curl --location 'https://{domain}/service/fw/' --request 'POST' --data '{"url":"
 curl --location 'https://{domain}/service/fw/' --request 'DELETE' --data '{"index":0}'
 ```
 
+### Server Health Checker
+
+```bash
+curl --location '{children-base-domain}/health'
+```
+
+This route checks the health status of children server. The children is considered as good health when it return anything with status 200.
+
 ### Children Server Endpoint Request & Response
 
 - `/api/rembg/`
@@ -55,6 +63,64 @@ curl --location 'https://{domain}/service/fw/' --request 'DELETE' --data '{"inde
 {
     "data": {
         "image": "<static-access-url>"
+    }
+}
+```
+
+- `/api/fd/`
+
+```json
+// Request. Form-data
+{
+    "image": "<image-data"
+}
+
+// Response. JSON
+{
+    "data": {
+        "faces": []
+    }
+}
+```
+
+- `/api/chats/`
+
+```json
+// Request. JSON
+{
+    "prompt": "A Prompt from user"
+}
+
+// Response. JSON
+{
+    "data": {
+        "message": "A Message from AI"
+    }
+}
+```
+
+- `/api/chats/:id`
+
+```json
+// Request. JSON
+{
+    "prompt": "A Prompt from user",
+    "conversation": [
+        {
+            "role": "user",
+            "content": "Message A"
+        },
+        {
+            "role": "assistant",
+            "content": "Message B"
+        }
+    ]
+}
+
+// Response. JSON
+{
+    "data": {
+        "message": "A Message from AI"
     }
 }
 ```

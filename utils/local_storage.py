@@ -31,7 +31,7 @@ def parse_filename(filename: str):
     return filename
 
 
-def save_to_local(file: bytes | Any, filename: str, is_parse_filename: bool = True):
+def save_to_local(file: bytes | Any, filename: str, is_parse_filename: bool = True, directory: str = TEMP_DIR):
     # Parse filename
     if is_parse_filename:
         filename = parse_filename(filename)
@@ -43,7 +43,7 @@ def save_to_local(file: bytes | Any, filename: str, is_parse_filename: bool = Tr
     else:
         mode = 'wb'
     # Save file
-    with open(os.path.join(TEMP_DIR, filename), mode) as f:
+    with open(os.path.join(directory, filename), mode) as f:
         if file_extension == 'json':
             json.dump(file, f)
         else:
@@ -52,7 +52,7 @@ def save_to_local(file: bytes | Any, filename: str, is_parse_filename: bool = Tr
     return f"{APP_DOMAIN}/static/{filename}"
 
 
-def read_from_local(filename: str):
+def read_from_local(filename: str, directory: str = TEMP_DIR):
     # Get type of file
     file_extension = filename.split('.')[-1]
     # Get read mode
@@ -61,21 +61,21 @@ def read_from_local(filename: str):
     else:
         mode = 'rb'
     # If file is exist, return file
-    if os.path.isfile(os.path.join(TEMP_DIR, filename)):
-        with open(os.path.join(TEMP_DIR, filename), mode) as f:
+    if os.path.isfile(os.path.join(directory, filename)):
+        with open(os.path.join(directory, filename), mode) as f:
             if file_extension == 'json':
                 return json.load(f)
             return f.read()
 
 
-def remove_from_local(filename: str):
+def remove_from_local(filename: str, directory: str = TEMP_DIR):
     # If file is exist, add number to filename
-    if os.path.isfile(os.path.join(TEMP_DIR, filename)):
-        os.remove(os.path.join(TEMP_DIR, filename))
+    if os.path.isfile(os.path.join(directory, filename)):
+        os.remove(os.path.join(directory, filename))
 
 
-def remove_from_local_with_expire(filename: str, expire: int):
+def remove_from_local_with_expire(filename: str, expire: int, directory: str = TEMP_DIR):
     # Remove file after expire time
     if expire is not None and expire > 0:
-        t = Timer(expire, remove_from_local, args=[filename])
+        t = Timer(expire, remove_from_local, args=[filename, directory])
         t.start()

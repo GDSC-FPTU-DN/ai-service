@@ -4,6 +4,8 @@ APP_DOMAIN = "http://localhost:8000"
 
 TEMP_DIR = os.path.join(os.getcwd(), 'temp')
 
+DATA_DIR = os.path.join(os.getcwd(), 'data')
+
 DOC_TEMPLATE = f'''
 <!DOCTYPE html>
 <html>

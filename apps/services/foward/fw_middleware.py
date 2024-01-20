@@ -18,7 +18,7 @@ async def verify_fw_resources(url: str) -> bool:
 async def forward_middleware(fw: str = None):
     # Verify forward destination index
     try:
-        if fw != 'auto':
+        if fw != 'auto' and fw is not None:
             fw = int(fw)
     except Exception:
         raise HTTPException(
@@ -46,12 +46,16 @@ async def forward_middleware(fw: str = None):
             fw = None
     # If forward destination is not auto, update forward destination tasks
     else:
-        update_fw_destination(fw, fw_destinations[fw]['tasks'] + 1)
+        if fw is not None:
+            update_fw_destination(fw, fw_destinations[fw]['tasks'] + 1)
 
     return fw
 
 
 def forward_request(fw_index: int, data: Any, endpoint: str = '', method: Literal['GET', 'POST', 'PUT', 'DELETE'] = 'POST'):
+    # Return None if fw_index is None
+    if fw_index is None:
+        return None
     # Get forward destination url
     fw_destinations = get_fw_destinations()
     fw_url = fw_destinations[fw_index]['url'] + endpoint
