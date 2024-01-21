@@ -6,8 +6,8 @@ services:
     container_name: "gdsc-ai-service-container"
     ports:
       - "8000:80"
-    volumes:
-      - .:/app
-      - /app/env
+    # volumes:
+    #   - .:/app
+    #   - /app/env
     env_file:
       - .env
