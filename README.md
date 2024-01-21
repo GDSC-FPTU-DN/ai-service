@@ -129,3 +129,16 @@ This route checks the health status of children server. The children is consider
 
 - GDSC-FPTU [[gdsc-fptu](https://github.com/gdsc-fptu)]
 - Đoàn Quang Minh [[Ming-doan](https://github.com/Ming-doan)]
+
+## 🤗 HF Space Configs
+
+---
+
+title: GDSC AI Service
+emoji: ⚡
+colorFrom: pink
+colorTo: blue
+sdk: static
+pinned: false
+
+---
