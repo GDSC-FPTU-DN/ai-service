@@ -17,4 +17,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://gdscfptu:$HF_TOKEN@huggingface.co/spaces/gdscfptu/ai-service-inference main
+        run: git push -f https://gdscfptu:$HF_TOKEN@huggingface.co/spaces/gdscfptu/ai-service-hf main
