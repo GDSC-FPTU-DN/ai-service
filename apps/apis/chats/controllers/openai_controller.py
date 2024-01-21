@@ -10,11 +10,12 @@ BASE_ENHANCE_PROMPT = {
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 
-def send_message(prompt: str):
+def send_message(prompt: str, histories: list = []):
     return client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             BASE_ENHANCE_PROMPT,
+            *histories,
             {"role": "user", "content": prompt}
         ]
     ).choices[0].message.content

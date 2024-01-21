@@ -18,13 +18,13 @@ router_base_configs = {
 def message(data: ChatsModel, fw_index=Depends(forward_middleware)):
     # Forward request
     fw_data = {
-        "data": {"prompt": data.prompt}
+        "json": {"prompt": data.prompt}
     }
     fw_response = forward_request(fw_index, fw_data, '/api/chats/')
     if fw_response is not None:
         return {"message": fw_response["data"]["message"]}
 
-    response = send_message(data.prompt)
+    response = send_message(data.prompt, data.histories or [])
     return {"message": response}
 
 

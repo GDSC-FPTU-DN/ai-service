@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse, StreamingResponse
 from apps.services.foward.fw_middleware import forward_middleware, forward_request
 from .models.rembg_model import RembgModel
-from .controllers.rembg_controller import rembg_controller
+from .controllers.rembg_controller import rembg_controller, download_image
 from utils.local_storage import save_to_local, remove_from_local_with_expire
 
 router = APIRouter(prefix='/rembg')
@@ -26,6 +26,10 @@ async def remove_background(
     }
     fw_response = forward_request(fw_index, fw_data, '/api/rembg/')
     if fw_response is not None:
+        if RembgModel.stream_parser(stream):
+            # Read image
+            image_bytes = download_image(fw_response["data"]['image'])
+            return StreamingResponse(image_bytes, media_type="application/octet-stream", headers={"Content-Disposition": f"attachment;filename={image.filename}"})
         return JSONResponse({
             "message": "Image is processed successfully",
             "access_link": fw_response["data"]['image']
@@ -45,13 +49,11 @@ async def remove_background(
     if RembgModel.stream_parser(stream):
         return StreamingResponse(processed_image, media_type="application/octet-stream", headers={"Content-Disposition": f"attachment;filename={image.filename}"})
     # If stream is False, save locally and return access link
-    else:
-        # Save image
-        local_path = save_to_local(processed_image.read(), image.filename)
-        # Automatic delete file
-        remove_from_local_with_expire(local_path, expire)
-        # Return access link
-        return JSONResponse({
-            "message": "Image is processed successfully",
-            "access_link": local_path
-        })
+    local_path = save_to_local(processed_image.read(), image.filename)
+    # Automatic delete file
+    remove_from_local_with_expire(local_path, expire)
+    # Return access link
+    return JSONResponse({
+        "message": "Image is processed successfully",
+        "access_link": local_path
+    })
