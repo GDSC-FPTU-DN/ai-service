@@ -9,5 +9,5 @@ services:
     # volumes:
     #   - .:/app
     #   - /app/env
-    env_file:
-      - .env
+    # env_file:
+    #   - .env
