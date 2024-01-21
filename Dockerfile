@@ -2,8 +2,12 @@ FROM python:3.11.7-slim-bookworm
 
 COPY ./requirements.txt /app/requirements.txt
 
-RUN apt-get update
-RUN apt-get install ffmpeg libsm6 libxext6  -y
+RUN apt-get update -y
+RUN apt install libgl1-mesa-glx -y
+RUN apt-get install 'ffmpeg'\
+    'libsm6'\
+    'libxext6'  -y
+RUN pip3 install --upgrade pip
 
 RUN pip install -r /app/requirements.txt
 
