@@ -8,8 +8,17 @@ RUN useradd -m -u 1000 user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
+# Define working directory
+WORKDIR $HOME/app
+
+# Switch to user
+USER user
+
 # Copy requirements.txt to the image
-COPY ./requirements.txt /app
+COPY --chown=user ./requirements.txt $HOME/app
+
+# Switch to root
+USER root
 
 # Install libgl1-mesa-glx for opencv
 RUN apt-get update -y
@@ -18,15 +27,12 @@ RUN apt-get install 'ffmpeg'\
     'libsm6'\
     'libxext6'  -y
 
-# Install python dependencies
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install -r /app/requirements.txt
-
-# Define working directory
-WORKDIR $HOME/app
-
 # Switch to user
 USER user
+
+# Install python dependencies
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install -r $HOME/app/requirements.txt
 
 # Copy the rest of the code to the image
 COPY --chown=user . $HOME/app
