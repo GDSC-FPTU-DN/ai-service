@@ -1,11 +1,21 @@
 # Base image: python:3.11.7-slim-bookworm
 FROM python:3.11.7-slim-bookworm
 
+# Setup new user named user with UID 1000
+RUN useradd -m -u 1000 user
+
+# Set environment variables
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
+
 # Define working directory
-WORKDIR /app
+WORKDIR $HOME/app
+
+# Switch to user
+USER user
 
 # Copy requirements.txt to the image
-COPY ./requirements.txt /app
+COPY --chown=user ./requirements.txt $HOME/app
 
 # Install libgl1-mesa-glx for opencv
 RUN apt-get update -y
@@ -16,10 +26,10 @@ RUN apt-get install 'ffmpeg'\
 
 # Install python dependencies
 RUN pip install --no-cache-dir --upgrade pip
-RUN pip install -r /app/requirements.txt
+RUN pip install -r $HOME/app/requirements.txt
 
 # Copy the rest of the code to the image
-COPY . /app
+COPY --chown=user . $HOME/app
 
 # Expose port 80
 EXPOSE 80
