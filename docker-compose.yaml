@@ -4,6 +4,7 @@ services:
   api:
     build: .
     container_name: "gdsc-ai-service-container"
+    image: "gdscfptu/ai-service"
     ports:
       - "8000:80"
     volumes:
