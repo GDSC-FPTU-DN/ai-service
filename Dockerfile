@@ -5,19 +5,12 @@ FROM python:3.11.7-slim-bookworm
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
-# Copy requirements.txt to the image
-COPY ./requirements.txt /app
-
 # Install libgl1-mesa-glx for opencv
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
 RUN apt-get install 'ffmpeg'\
     'libsm6'\
     'libxext6'  -y
-
-# Install python dependencies
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install -r /app/requirements.txt --root-user-action=ignore
 
 # Setup new user named user with UID 1000
 RUN useradd -m -u 1000 user
@@ -28,8 +21,15 @@ WORKDIR $HOME/app
 # Switch to user
 USER user
 
+# Copy requirements.txt to the image
+COPY --chown=user:user ./requirements.txt /app/requirements.txt
+
+# Install python dependencies
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --user -r /app/requirements.txt
+
 # Copy the rest of the code to the image
-COPY --chown=user . $HOME/app
+COPY --chown=user:user . $HOME/app
 
 # Expose port 80
 EXPOSE 80
