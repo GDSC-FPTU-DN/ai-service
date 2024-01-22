@@ -17,12 +17,18 @@ USER user
 # Copy requirements.txt to the image
 COPY --chown=user ./requirements.txt $HOME/app
 
+# Switch to root
+USER root
+
 # Install libgl1-mesa-glx for opencv
 RUN apt-get update -y
 RUN apt install libgl1-mesa-glx -y
 RUN apt-get install 'ffmpeg'\
     'libsm6'\
     'libxext6'  -y
+
+# Switch to user
+USER user
 
 # Install python dependencies
 RUN pip install --no-cache-dir --upgrade pip
