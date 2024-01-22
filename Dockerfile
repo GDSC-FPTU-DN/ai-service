@@ -31,9 +31,9 @@ RUN pip install --user -r /app/requirements.txt
 # Copy the rest of the code to the image
 COPY --chown=user:user . $HOME/app
 
-# Expose port 8000
-EXPOSE 8000/tcp
-EXPOSE 8000/udp
+# Expose port 7860
+EXPOSE 7860/tcp
+EXPOSE 7860/udp
 
 # Run the application
-CMD ["uvicorn", "main:app", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
