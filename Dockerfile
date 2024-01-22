@@ -6,7 +6,7 @@ ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
 
 # Copy requirements.txt to the image
-COPY ./requirements.txt $HOME/app
+COPY ./requirements.txt /app
 
 # Install libgl1-mesa-glx for opencv
 RUN apt-get update -y
@@ -17,7 +17,7 @@ RUN apt-get install 'ffmpeg'\
 
 # Install python dependencies
 RUN pip install --no-cache-dir --upgrade pip
-RUN pip install -r $HOME/app/requirements.txt
+RUN pip install -r /app/requirements.txt --root-user-action=ignore
 
 # Setup new user named user with UID 1000
 RUN useradd -m -u 1000 user
