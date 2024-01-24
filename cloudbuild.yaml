@@ -2,11 +2,8 @@ steps:
   - name: gcr.io/cloud-builders/docker
     entrypoint: 'bash'
     args:
+      - '-c'
       - build
-      - '--build-arg'
-      - 'CONTAINER_PRIVATE_KEY=$PRIVATE_KEY'
-      - '--build-arg'
-      - 'CONTAINER_PUBLIC_KEY=$PUBLIC_KEY'
       - '-t'
       - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA'
       
