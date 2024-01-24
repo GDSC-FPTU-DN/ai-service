@@ -72,13 +72,23 @@ This route checks the health status of children server. The children is consider
 ```json
 // Request. Form-data
 {
-    "image": "<image-data"
+    "image": "<image-data>"
 }
 
 // Response. JSON
 {
     "data": {
-        "faces": []
+        "faces": FaceObject[]
+    }
+}
+
+// FaceObject
+{
+    "bbox": {
+        "x": 0,
+        "y": 0,
+        "width": 100,
+        "height": 100
     }
 }
 ```
@@ -121,6 +131,22 @@ This route checks the health status of children server. The children is consider
 {
     "data": {
         "message": "A Message from AI"
+    }
+}
+```
+
+- `/api/img2text/`
+
+```json
+// Request. Form-data
+{
+    "image": <image-data>
+}
+
+// Response. JSON
+{
+    "data": {
+        "caption": "Caption of image"
     }
 }
 ```
