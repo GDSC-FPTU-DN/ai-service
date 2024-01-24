@@ -1,14 +1,17 @@
 steps:
   - name: gcr.io/cloud-builders/docker
+    entrypoint: "bash"
     args:
       - build
       - "-t"
       - "$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA"
+      - "."
+      
   - name: gcr.io/cloud-builder/docker
     args:
       - push
       - "$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPO/$_SERVICE_NAME:$COMMIT_SHA"
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
     args:
       - run
       - deploy
