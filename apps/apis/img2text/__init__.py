@@ -12,7 +12,7 @@ router_base_configs = {
 
 # Image to text
 @router.post("/", **router_base_configs)
-def image_to_text(
+async def image_to_text(
     image: Img2TextModel.image = Img2TextModel.image_default,
     fw_index: Img2TextModel.fw_index = Depends(forward_middleware)
 ):

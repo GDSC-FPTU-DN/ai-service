@@ -14,7 +14,7 @@ router_base_configs = {
 
 # Message
 @router.post("/", **router_base_configs)
-def message(data: ChatsModel, fw_index=Depends(forward_middleware)):
+async def message(data: ChatsModel, fw_index=Depends(forward_middleware)):
     # Forward request
     fw_data = {
         "json": {"prompt": data.prompt}
@@ -29,7 +29,7 @@ def message(data: ChatsModel, fw_index=Depends(forward_middleware)):
 
 # Message to conversation
 @router.post("/{cid}", **router_base_configs)
-def conversation(cid: str, data: ChatsModel, fw_index=Depends(forward_middleware)):
+async def conversation(cid: str, data: ChatsModel, fw_index=Depends(forward_middleware)):
     is_exist = is_conversation_storage_exist(cid)
     if not is_exist:
         raise HTTPException(status_code=404, detail="Conversation not found")
@@ -52,7 +52,7 @@ def conversation(cid: str, data: ChatsModel, fw_index=Depends(forward_middleware
 
 # Get conversation by id
 @router.get("/{cid}", **router_base_configs)
-def get_conversation(cid: str):
+async def get_conversation(cid: str):
     is_exist = is_conversation_storage_exist(cid)
     if not is_exist:
         raise HTTPException(status_code=404, detail="Conversation not found")
@@ -63,13 +63,13 @@ def get_conversation(cid: str):
 
 # Create conversation
 @router.get("/create", **router_base_configs)
-def create_conversation():
+async def create_conversation():
     cid = create_conversation_storage()
     return {"conversation_id": cid}
 
 
 # Delete conversation
 @router.delete("/delete/{cid}", **router_base_configs)
-def delete_conversation(cid: str):
+async def delete_conversation(cid: str):
     delete_conversation_storage(cid)
     return {"conversation_id": cid}

@@ -13,19 +13,19 @@ router_base_configs = {
 
 # Create foward destination
 @router.post("/", **router_base_configs)
-def create_forward_destination(data: CreateFwDestinationModel):
+async def create_forward_destination(data: CreateFwDestinationModel):
     index = append_fw_destination(data.url)
     return {"fw_index": index}
 
 
 # Delete foward destination
 @router.delete("/", **router_base_configs)
-def delete_forward_destination(data: DeleteFwDestinationModel):
+async def delete_forward_destination(data: DeleteFwDestinationModel):
     delete_fw_destination(data.index)
     return {"fw_index": data.index}
 
 
 # Get foward destinations
 @router.get("/", **router_base_configs)
-def get_forward_destinations():
+async def get_forward_destinations():
     return {"fw": get_fw_destinations()}

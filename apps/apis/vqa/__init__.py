@@ -12,7 +12,7 @@ router_base_configs = {
 
 
 @router.post("/", **router_base_configs)
-def vision_question_answer(
+async def vision_question_answer(
     image: VQAModel.image = VQAModel.image_default,
     question: VQAModel.question = VQAModel.question_default,
     fw_index: VQAModel.fw_index = Depends(forward_middleware)

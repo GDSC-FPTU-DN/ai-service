@@ -4,7 +4,7 @@ from fastapi import HTTPException
 from .fw_storage import get_fw_destinations, update_fw_destination
 
 
-async def verify_fw_resources(url: str) -> bool:
+def verify_fw_resources(url: str) -> bool:
     # Verify forward destination resources logger
     print("Verifying resources on", url)
     try:
@@ -35,7 +35,8 @@ async def forward_middleware(fw: str = None):
             # Verify forward destination resources
             fw = None
             for i in range(0, len(fw_destinations)):
-                is_resource_available = await verify_fw_resources(fw_destinations[i]['url'])
+                is_resource_available = verify_fw_resources(
+                    fw_destinations[i]['url'])
                 if is_resource_available:
                     fw = i
                     break

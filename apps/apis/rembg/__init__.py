@@ -44,7 +44,7 @@ async def remove_background(
     # Read image
     image_bytes = await image.read()
     # Process image
-    processed_image = await rembg_controller(image_bytes)
+    processed_image = rembg_controller(image_bytes)
     # If stream is True, return StreamingResponse
     if RembgModel.stream_parser(stream):
         return StreamingResponse(processed_image, media_type="application/octet-stream", headers={"Content-Disposition": f"attachment;filename={image.filename}"})
