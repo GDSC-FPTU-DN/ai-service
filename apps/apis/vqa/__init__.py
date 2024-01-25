@@ -19,10 +19,11 @@ async def vision_question_answer(
 ):
     # Forward request
     fw_data = {
-        "files": {"image": image.file, "question": question},
+        "files": {"image": image.file},
+        "data": {"question": question}
     }
     fw_response = forward_request(fw_index, fw_data, '/api/vqa/')
     if fw_response is not None:
-        return {"answer": fw_response["data"]["answer"]}
+        return {"answer": fw_response}
 
     return {"answer": "VQA model is not available in this server"}

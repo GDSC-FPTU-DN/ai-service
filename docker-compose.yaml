@@ -7,8 +7,8 @@ services:
     image: "gdscfptu/ai-service"
     ports:
       - "7860:7860"
-    # volumes:
-    #   - .:${HOME}/app
-    #   - ${HOME}/app/env
+    volumes:
+      - .:${HOME}/app
+      - ${HOME}/app/env
     env_file:
       - ./.env
