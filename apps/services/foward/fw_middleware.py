@@ -5,6 +5,8 @@ from .fw_storage import get_fw_destinations, update_fw_destination
 
 
 async def verify_fw_resources(url: str) -> bool:
+    # Verify forward destination resources logger
+    print("Verifying resources on", url)
     try:
         response = requests.get(url + '/health')
         if response.status_code == 200:
@@ -31,14 +33,12 @@ async def forward_middleware(fw: str = None):
             # Sort resources by tasks
             fw_destinations.sort(key=lambda x: x['tasks'])
             # Verify forward destination resources
-            fw = 0
+            fw = None
             for i in range(0, len(fw_destinations)):
-                is_resource_available = await verify_fw_resources(fw_destinations[fw]['url'])
+                is_resource_available = await verify_fw_resources(fw_destinations[i]['url'])
                 if is_resource_available:
                     fw = i
                     break
-                else:
-                    fw = None
             # Update forward destination tasks
             if fw is not None:
                 update_fw_destination(fw, fw_destinations[fw]['tasks'] + 1)
@@ -48,17 +48,16 @@ async def forward_middleware(fw: str = None):
     else:
         if fw is not None:
             update_fw_destination(fw, fw_destinations[fw]['tasks'] + 1)
-
     return fw
 
 
 def forward_request(fw_index: int, data: Any, endpoint: str = '', method: Literal['GET', 'POST', 'PUT', 'DELETE'] = 'POST'):
     # Logger
-    print("Forwarding request to ", fw_index, endpoint)
     # Return None if fw_index is None
     if fw_index is None:
         return None
     # Get forward destination url
+    print("Forwarding request to", fw_index, endpoint)
     fw_destinations = get_fw_destinations()
     fw_url = fw_destinations[fw_index]['url'] + endpoint
     # Call request
