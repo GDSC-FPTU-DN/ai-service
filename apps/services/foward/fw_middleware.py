@@ -53,6 +53,8 @@ async def forward_middleware(fw: str = None):
 
 
 def forward_request(fw_index: int, data: Any, endpoint: str = '', method: Literal['GET', 'POST', 'PUT', 'DELETE'] = 'POST'):
+    # Logger
+    print("Forwarding request to ", fw_index, endpoint)
     # Return None if fw_index is None
     if fw_index is None:
         return None
