@@ -27,6 +27,10 @@ DOC_SWAGGER = {
             "description": "Detect faces from image"
         },
         {
+            "name": "vqa",
+            "description": "Answer questions from image"
+        },
+        {
             "name": "fw",
             "description": "Foward request to other services"
         }

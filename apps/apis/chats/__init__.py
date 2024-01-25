@@ -1,4 +1,3 @@
-import os
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import JSONResponse
 from .models.chats_model import ChatsModel

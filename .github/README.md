@@ -11,6 +11,42 @@ src="https://seeklogo.com/images/G/google-developers-logo-F8BF3155AC-seeklogo.co
 
 ## ✨ Available Services
 
+- Remove Background `/api/rembg/`
+
+```bash
+curl --location 'https://{server-domain}/api/rembg/' --form 'image=/image/path' --form 'stream=false' --form 'exprire=3600' --request 'POST'
+```
+
+- Face Detection `/api/fd/`
+
+```bash
+curl --location 'https://{server-domain}/api/fd/' --form 'image=/image/path' --request 'POST'
+```
+
+- Chats AI `/api/chats/`
+
+```bash
+curl --location 'https://{server-domain}/api/chats/' --data='{"prompt": ""}' --request 'POST'
+```
+
+- Image to Text `/api/img2text/` (Forwarding Server)
+
+```bash
+curl --location 'https://{server-domain}/api/img2text/' --form 'image=/image/path' --request 'POST'
+```
+
+- Vision Question Answering `/api/vqa/` (Forwarding Server)
+
+```bash
+curl --location 'https://{server-domain}/api/vqa/' --form 'image=/image/path' --form 'question=Question for image' --request 'POST'
+```
+
+## 🖥️ Root Server
+
+- [HuggingFace Space](https://gdscfptu-ai-service-hf.hf.space)
+
+- [Google Cloud Run](https://ai-service-gcp-ul5gxefjzq-as.a.run.app)
+
 ## ⏩ Forwarding Server
 
 The forwarding server help adding children server for processing. The parent server acts as a controller for load balancing.
@@ -147,6 +183,23 @@ This route checks the health status of children server. The children is consider
 {
     "data": {
         "caption": "Caption of image"
+    }
+}
+```
+
+- `/api/vqa/`
+
+```json
+// Request. Form-data
+{
+    "image": <image-data>,
+    "question": "Question for image"
+}
+
+// Response. JSON
+{
+    "data": {
+        "answer": "Answer of image"
     }
 }
 ```
