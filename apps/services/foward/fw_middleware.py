@@ -77,6 +77,8 @@ def forward_request(fw_index: int, data: Any, endpoint: str = '', method: Litera
     except Exception as e:
         print("Forwarding Error: ", e)
         response = None
+    if response is not None and response.status_code != 200:
+        response = None
     # Update forward destination tasks
     update_fw_destination(fw_index, fw_destinations[fw_index]['tasks'] - 1)
     # Return response
